@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package movies;
+option go_package = "github.com/movie-microservice/proto/movies";
+
+service MovieService {
+    rpc GetMovies(GetMoviesRequest) returns (GetMoviesResponse);
+    rpc GetMovie(GetMovieRequest) returns (GetMovieResponse);
+    rpc CreateMovie(CreateMovieRequest) returns (CreateMovieResponse);
+    rpc DeleteMovie(DeleteMovieRequest) returns (DeleteMovieResponse);
+}
+
+message Movie {
+    int32 id = 1;
+    string title = 2;
+    string year = 3;
+}
+
+message GetMoviesRequest {
+    int32 page = 1;
+    int32 limit = 2;
+}
+
+message GetMoviesResponse {
+    repeated Movie movies = 1;
+    int32 total = 2;
+    bool success = 3;
+    string error = 4;
+}
+
+message GetMovieRequest {
+    int32 id = 1;
+}
+
+message GetMovieResponse {
+    Movie movie = 1;
+    bool success = 2;
+    string error = 3;
+}
+
+message CreateMovieRequest {
+    string title = 1;
+    string year = 2;
+}
+
+message CreateMovieResponse {
+    Movie movie = 1;
+    bool success = 2;
+    string error = 3;
+}
+
+message DeleteMovieRequest {
+    int32 id = 1;
+}
+
+message DeleteMovieResponse {
+    bool success = 1;
+    string error = 2;
+}
