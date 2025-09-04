@@ -20,8 +20,6 @@ Sistema completo de microserviços para gerenciamento de filmes usando **Arquite
 
 ## 🚀 Começando
 
-## 🚀 Inicialização Rápida
-
 ### Pré-requisitos
 
 - Docker e Docker Compose
