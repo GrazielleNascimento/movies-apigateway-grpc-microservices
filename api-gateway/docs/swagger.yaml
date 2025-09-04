@@ -1,0 +1,216 @@
+basePath: /api/v1
+definitions:
+  handlers.CreateMovieRequest:
+    description: Request body for creating a new movie
+    properties:
+      title:
+        example: The Godfather
+        maxLength: 500
+        minLength: 1
+        type: string
+      year:
+        example: "1972"
+        type: string
+    required:
+    - title
+    - year
+    type: object
+  handlers.ErrorResponse:
+    description: Error response with error type and optional message
+    properties:
+      error:
+        example: invalid_request
+        type: string
+      message:
+        example: invalid page number
+        type: string
+    type: object
+  handlers.MovieResponse:
+    description: Movie information
+    properties:
+      id:
+        example: 1
+        type: integer
+      title:
+        example: The Godfather
+        type: string
+      year:
+        example: "1972"
+        type: string
+    type: object
+  handlers.SuccessResponse:
+    description: Success response with optional data, message and total count
+    properties:
+      data: {}
+      message:
+        example: movie created successfully
+        type: string
+      total:
+        example: 10
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API Gateway for Movie Microservice
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Movie API Gateway
+  version: "1.0"
+paths:
+  /movies:
+    get:
+      consumes:
+      - application/json
+      description: Get a paginated list of movies
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of movies
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/handlers.MovieResponse'
+                  type: array
+              type: object
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Get all movies
+      tags:
+      - Movies
+    post:
+      consumes:
+      - application/json
+      description: Create a new movie with title and year
+      parameters:
+      - description: Movie data to create
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateMovieRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Movie created successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.MovieResponse'
+              type: object
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Create a new movie
+      tags:
+      - Movies
+  /movies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a movie by its ID
+      parameters:
+      - description: Movie ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie deleted successfully
+          schema:
+            $ref: '#/definitions/handlers.SuccessResponse'
+        "400":
+          description: Invalid movie ID
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Delete movie by ID
+      tags:
+      - Movies
+    get:
+      consumes:
+      - application/json
+      description: Get a single movie by its ID
+      parameters:
+      - description: Movie ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie found
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.MovieResponse'
+              type: object
+        "400":
+          description: Invalid movie ID
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Get movie by ID
+      tags:
+      - Movies
+swagger: "2.0"
