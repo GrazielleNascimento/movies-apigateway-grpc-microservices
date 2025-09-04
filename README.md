@@ -20,26 +20,6 @@ Sistema completo de microserviços para gerenciamento de filmes usando **Arquite
 
 ## 🚀 Começando
 
-### Configuração do Ambiente
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/GrazielleNascimento/movies-apigateway-grpc-microservices.git
-cd movies-apigateway-grpc-microservices
-```
-
-2. Configure as variáveis de ambiente:
-```bash
-# Copie o arquivo de exemplo de variáveis de ambiente
-cp .env.example .env
-
-# Abra o arquivo .env e ajuste as configurações conforme necessário
-# Importante: Substitua your_username e your_password por valores apropriados
-# Se estiver usando Docker Compose, você precisará atualizar:
-# - localhost -> mongodb (para o serviço MongoDB)
-# - localhost -> movies-service (para o serviço gRPC)
-```
-
 ## 🚀 Inicialização Rápida
 
 ### Pré-requisitos
@@ -51,8 +31,20 @@ cp .env.example .env
 ### 1. Clonar o projeto
 
 ```bash
-git clone <seu-repositorio>
-cd movie-microservice
+git clone https://github.com/GrazielleNascimento/movies-apigateway-grpc-microservices.git
+cd movies-apigateway-grpc-microservices
+```
+
+### 2. Configurar variáveis de ambiente:
+```bash
+# Copie o arquivo de exemplo de variáveis de ambiente
+cp .env.example .env
+
+# Abra o arquivo .env e ajuste as configurações conforme necessário
+# Importante: Substitua your_username e your_password por valores apropriados
+# Se estiver usando Docker Compose, você precisará atualizar:
+# - localhost -> mongodb (para o serviço MongoDB)
+# - localhost -> movies-service (para o serviço gRPC)
 ```
 
 ### 2. Executar com um único comando
