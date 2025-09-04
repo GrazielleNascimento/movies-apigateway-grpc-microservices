@@ -1,0 +1,30 @@
+.git
+.gitignore
+README.md
+.env
+.nyc_output
+coverage
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+.docker*
+
+# Go specific
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+go.work
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
