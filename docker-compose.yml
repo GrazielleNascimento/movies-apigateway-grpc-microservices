@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:5
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=movies_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - go-movies-net
+
+  movies-service:
+    build:
+      context: .
+      dockerfile: movies-service/Dockerfile
+    container_name: movies-service
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/movies_db?authSource=admin
+      - DATABASE_NAME=movies_db
+      - GRPC_PORT=50051
+    ports:
+      - "50051:50051"
+    depends_on:
+      - mongodb
+    networks:
+      - go-movies-net
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - movies-service
+    networks:
+      - go-movies-net
+
+  data-initializer:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile
+    container_name: data-initializer
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/movies_db?authSource=admin
+      - DATABASE_NAME=movies_db
+    depends_on:
+      - mongodb
+    networks:
+      - go-movies-net
+
+volumes:
+  mongo-data:
+
+networks:
+  go-movies-net:
+    driver: bridge
