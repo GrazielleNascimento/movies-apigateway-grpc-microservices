@@ -5,7 +5,6 @@ all: dev
 # Inicia todo o ambiente de desenvolvimento
 dev:
 	@echo "Starting development environment..."
-	@go mod tidy
 	@docker compose up --build
 	@echo "Services started!"
 
